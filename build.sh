@@ -58,7 +58,7 @@ else
     find "$OUT_DIR/arch/arm64/boot/dts/qcom/" -name "*atoll*.dtb" -exec cat {} + > "$ANYKERNEL_DIR/dtb" 2>/dev/null || true
 fi
 
-ZIPNAME="Alecto-Miatoll-$(date +%Y%m%d-%H%M).zip"
+ZIPNAME="Ignition-Miatoll-$(date +%Y%m%d-%H%M).zip"
 zip -r9 "$KERNEL_DIR/$ZIPNAME" * -x .git README.md *placeholder
 
 END_TIME=$(date +"%s")
