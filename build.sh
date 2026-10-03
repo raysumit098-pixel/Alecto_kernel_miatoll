@@ -31,7 +31,7 @@ make -j"$PROCS" O="$OUT_DIR"     ARCH=arm64     SUBARCH=arm64     CC=clang     L
 echo "=== 4. Checking outputs ==="
 IMAGE="$OUT_DIR/arch/arm64/boot/Image.gz"
 DTBO="$OUT_DIR/arch/arm64/boot/dtbo.img"
-DTB="$OUT_DIR/arch/arm64/boot/dtb"
+DTB="$OUT_DIR/arch/arm64/boot/dtb.img"
 
 if [ ! -f "$IMAGE" ]; then
     echo "ERROR: Kernel image not found at $IMAGE"
@@ -39,24 +39,16 @@ if [ ! -f "$IMAGE" ]; then
 fi
 
 echo "Kernel Image: $IMAGE"
-if [ -f "$DTBO" ]; then
-    echo "DTBO Image: $DTBO"
-fi
+echo "DTBO Image:   $DTBO"
+echo "DTB Image:    $DTB"
 
 echo "=== 5. Packaging with AnyKernel3 ==="
 cd "$ANYKERNEL_DIR"
-rm -f Image.gz dtbo.img dtb *.zip
+rm -f Image.gz dtbo.img dtb.img dtb *.zip
 
 cp "$IMAGE" "$ANYKERNEL_DIR/Image.gz"
-if [ -f "$DTBO" ]; then
-    cp "$DTBO" "$ANYKERNEL_DIR/dtbo.img"
-fi
-
-if [ -f "$DTB" ]; then
-    cp "$DTB" "$ANYKERNEL_DIR/dtb"
-else
-    find "$OUT_DIR/arch/arm64/boot/dts/qcom/" -name "*atoll*.dtb" -exec cat {} + > "$ANYKERNEL_DIR/dtb" 2>/dev/null || true
-fi
+cp "$DTBO" "$ANYKERNEL_DIR/dtbo.img"
+cp "$DTB" "$ANYKERNEL_DIR/dtb.img"
 
 ZIPNAME="Ignition-Miatoll-$(date +%Y%m%d-%H%M).zip"
 zip -r9 "$KERNEL_DIR/$ZIPNAME" * -x .git README.md *placeholder
