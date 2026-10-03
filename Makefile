@@ -776,9 +776,6 @@ KBUILD_AFLAGS   += -mcpu=cortex-a76 -mtune=cortex-a76 -march=armv8.2-a+crc+crypt
 # Enable hot cold split optimization
 KBUILD_CFLAGS   += -mllvm -hot-cold-split=true
 # Enable MLGO optimizations for register allocation
-KBUILD_CFLAGS   += -mllvm -regalloc-enable-advisor=release
-KBUILD_LDFLAGS  += -mllvm -regalloc-enable-advisor=release
-KBUILD_LDFLAGS  += -mllvm -enable-ml-inliner=release
 endif
 
 # Tell gcc to never replace conditional load with a non-conditional one
